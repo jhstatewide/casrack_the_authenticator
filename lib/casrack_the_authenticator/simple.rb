@@ -30,7 +30,9 @@ module CasrackTheAuthenticator
     # @return [Array<Integer, Hash, #each>] a Rack response
     def call(env)
       request = Rack::Request.new(env)
-      process_return_from_cas(request)
+      if request.params['ticket']
+         process_return_from_cas(request)
+      end
       redirect_on_401(request, @app.call(env))
     end
     
